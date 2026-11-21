@@ -1,48 +1,48 @@
 # IntelliHub AI
 
-IntelliHub AI is a Streamlit-based personal AI assistant powered by a locally running Ollama model.
+IntelliHub AI is a Streamlit-based assistant for study help, career guidance, placement preparation, document Q&A, task planning, and application tracking. The project uses a local Ollama model by default.
 
-## Included features
+## Run locally on Windows
 
-- AI question answering with Ollama
-- Career guidance, resume and interview preparation
-- Placement practice and study planning
-- Local document upload and retrieval (TXT, Markdown, PDF, DOCX)
-- SQLite-backed local answer history and planner data
-- Charts and application tracking
+1. Install [Ollama](https://ollama.com/) and start it.
+2. In PowerShell, download the default model:
 
-## Run locally
-
-1. Install [Python](https://www.python.org/) and [Ollama](https://ollama.com/).
-2. Download the model:
-
-   ```bash
+   ```powershell
    ollama pull llama3.2:3b
    ```
 
-3. Install dependencies:
+3. Clone this repository and open its folder in VS Code.
+4. Create and activate a virtual environment (optional but recommended):
 
-   ```bash
-   pip install -r requirements.txt
+   ```powershell
+   python -m venv .venv
+   .venv\Scripts\activate
    ```
 
-4. Copy `.env.example` to `.env` if you want to customize the Ollama model or URL.
-5. Start the app:
+5. Install packages and run:
 
-   ```bash
+   ```powershell
+   pip install -r requirements.txt
    streamlit run app.py
    ```
 
-Open http://localhost:8501.
+6. Open http://localhost:8501.
 
-## Important deployment note
+## Deploy on Streamlit Community Cloud
 
-This version uses Ollama at `http://localhost:11434`. That address points to the computer running the app. A cloud host such as Streamlit Community Cloud cannot access Ollama running on your personal computer. To make the app publicly usable, deploy Ollama on a secured, reachable server or adapt the app to a hosted model endpoint.
+- Choose this repository, branch `main`, and main file `app.py`.
+- The launcher loads the original app source from `IntelliHub-AI-source.zip`.
+- Add `OLLAMA_BASE_URL` and `OLLAMA_MODEL` under **App settings → Secrets** only if you have an Ollama server reachable from the public cloud app.
 
-## Source archive
-
-The complete source package is available as `IntelliHub-AI-source.zip` in this repository. The archive excludes the local SQLite database so personal history is not published.
+**Important:** `http://localhost:11434` on Streamlit Cloud refers to the cloud container, not your personal computer. Therefore, the default local Ollama model will not be reachable from a deployed app. To make AI answers work online, you must provide a securely hosted, network-accessible Ollama endpoint. Do not expose your personal computer's Ollama port directly to the internet. The deployed app's local SQLite and uploaded files may also be temporary; use managed persistent storage for production data.
 
 ## Configuration
 
-See `.env.example` for the optional `OLLAMA_MODEL` and `OLLAMA_BASE_URL` settings. Never commit your real `.env` file, API keys, private documents, or local database.
+Local optional `.env`:
+
+```env
+OLLAMA_MODEL=llama3.2:3b
+OLLAMA_BASE_URL=http://localhost:11434
+```
+
+Never commit `.env`, API keys, passwords, database files, or private documents.
