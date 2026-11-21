@@ -1,0 +1,14 @@
+# Secrets and local configuration
+.env
+.streamlit/secrets.toml
+
+# Local user data
+data/*.sqlite3
+documents/*
+!documents/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
